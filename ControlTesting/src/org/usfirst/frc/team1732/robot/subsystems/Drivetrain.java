@@ -117,8 +117,8 @@ public class Drivetrain extends Subsystem {
 	talon.reverseSensor(reverseSensor);
 	talon.configNominalOutputVoltage(+0.0f, -0.0f);
 	talon.configPeakOutputVoltage(+MAX_VOLTAGE, -MAX_VOLTAGE);
-	talon.setCurrentLimit(MAX_AMPS);
-	talon.EnableCurrentLimit(true);
+	// talon.setCurrentLimit(MAX_AMPS);
+	// talon.EnableCurrentLimit(true);
 	talon.setNominalClosedLoopVoltage(MAX_VOLTAGE);
 	/*
 	 * talon.setNominalClosedLoopVoltage does the same thing for closed loop
