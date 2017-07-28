@@ -15,9 +15,10 @@ public class TeleopDrive extends Command {
     public static final List<DriveMode> driveModes = Collections
 	    .unmodifiableList(Arrays.asList(new TankDrive(Robot.oi.controller(), input -> input),
 		    new TankDrive(Robot.oi.controller(), x -> x * Math.abs(x)),
-		    new TankDrive(Robot.oi.controller(), x -> x * x * x),
+		    new TankDrive(Robot.oi.controller(), x -> Math.pow(x, 3)),
 		    new TankDrive(Robot.oi.controller(), x -> Math.signum(x) * Math.pow(Math.abs(x), Math.abs(x))),
-		    new TankDrive(Robot.oi.controller(), x -> Math.sin(x * Math.PI / 2))));
+		    new TankDrive(Robot.oi.controller(), x -> Math.sin(x * Math.PI / 2)),
+		    new TankDrive(Robot.oi.controller(), x -> Math.pow(x, 1.0 / 3.0))));
 
     private static DriveMode driveMode;
 
