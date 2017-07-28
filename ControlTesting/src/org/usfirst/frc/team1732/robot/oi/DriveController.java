@@ -23,15 +23,78 @@ public class DriveController {
     public final JoystickButton leftTriggerButton;
     public final JoystickButton rightTriggerButton;
 
+    /**
+     * Constructor meant to use with the dual joysticks <br>
+     * Assumes that both joysticks have same axis numbers
+     * 
+     * @param leftUSB
+     *            left USB number
+     * @param rightUSB
+     *            right USB number
+     * @param xAxis
+     *            joystick x axis number
+     * @param yAxis
+     *            joystick y axis number
+     * @param trigger
+     *            trigger axis/button number
+     * @param isTriggerAxis
+     *            if the trigger is an axis (range of values) or just a button
+     *            (on and off)
+     */
     public DriveController(int leftUSB, int rightUSB, int xAxis, int yAxis, int trigger, boolean isTriggerAxis) {
 	this(leftUSB, rightUSB, xAxis, yAxis, trigger, xAxis, yAxis, trigger, isTriggerAxis);
     }
 
+    /**
+     * Constructor meant for game controllers
+     * 
+     * @param USB
+     *            the single USB port for the controller
+     * @param leftX
+     *            left x axis number
+     * @param leftY
+     *            left y axis number
+     * @param leftTrigger
+     *            left trigger axis/button number
+     * @param rightX
+     *            right x axis number
+     * @param rightY
+     *            right x axis number
+     * @param rightTrigger
+     *            right trigger axis/button number
+     * @param isTriggerAxis
+     *            if the trigger is an axis (range of values) or just a button
+     *            (on and off)
+     */
     public DriveController(int USB, int leftX, int leftY, int leftTrigger, int rightX, int rightY, int rightTrigger,
 	    boolean isTriggerAxis) {
 	this(USB, USB, leftX, leftY, leftTrigger, rightX, rightY, rightTrigger, isTriggerAxis);
     }
 
+    /**
+     * Constructor with all arguments. Generally one of the other two
+     * constructors should be used.
+     * 
+     * @param leftUSB
+     *            left USB number
+     * @param rightUSB
+     *            right USB number
+     * @param leftX
+     *            left x axis number
+     * @param leftY
+     *            left y axis number
+     * @param leftTrigger
+     *            left trigger axis/button number
+     * @param rightX
+     *            right x axis number
+     * @param rightY
+     *            right x axis number
+     * @param rightTrigger
+     *            right trigger axis/button number
+     * @param isTriggerAxis
+     *            if the trigger is an axis (range of values) or just a button
+     *            (on and off)
+     */
     public DriveController(int leftUSB, int rightUSB, int leftX, int leftY, int leftTrigger, int rightX, int rightY,
 	    int rightTrigger, boolean isTriggerAxis) {
 	this.leftUSB = leftUSB;

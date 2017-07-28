@@ -1,30 +1,9 @@
 package org.usfirst.frc.team1732.robot.robotmaps;
 
-import org.usfirst.frc.team1732.robot.controllers.TankController;
-
+/*
+ * This class should contain abstract methods for differences between the practice bot/competition bot
+ */
 public abstract class RobotMap2017 extends RobotMap {
-
-    private TankController controller;
-
-    public RobotMap2017(TankController controller) {
-	this.controller = controller;
-    }
-
-    public int getLeftJoystickUSB() {
-	return controller.getLeftUSB();
-    }
-
-    public int getRightJoystickUSB() {
-	return controller.getRightUSB();
-    }
-
-    public int getRightAxis() {
-	return controller.getRightAxis();
-    }
-
-    public int getLeftAxis() {
-	return controller.getLeftAxis();
-    }
 
     @Override
     public int getPCM_CAN_ID() {

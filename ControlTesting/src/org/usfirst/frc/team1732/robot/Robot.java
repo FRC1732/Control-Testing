@@ -1,7 +1,6 @@
 
 package org.usfirst.frc.team1732.robot;
 
-import org.usfirst.frc.team1732.robot.controllers.TankController;
 import org.usfirst.frc.team1732.robot.oi.OI;
 import org.usfirst.frc.team1732.robot.robotmaps.RobotMap2017;
 import org.usfirst.frc.team1732.robot.robotmaps.RobotMap2017PracticeBot;
@@ -19,13 +18,11 @@ public class Robot extends IterativeRobot {
     public static Drivetrain drivetrain;
 
     private Command autonomousCommand;
-    private final TankController joysticks = new TankController(2, 1, 1, 1);
-    private final TankController logitech = new TankController(1, 1, 1, 3);
 
     @Override
     public void robotInit() {
-	robotMap = new RobotMap2017PracticeBot(logitech);
-	oi = new OI();
+	robotMap = new RobotMap2017PracticeBot();
+	oi = new OI(OI.dualJoystick);
 	drivetrain = new Drivetrain();
     }
 

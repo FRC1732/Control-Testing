@@ -1,10 +1,7 @@
 package org.usfirst.frc.team1732.robot.oi;
 
-import org.usfirst.frc.team1732.robot.Robot;
 import org.usfirst.frc.team1732.robot.commands.joystickcommands.PrintDriveData;
-import org.usfirst.frc.team1732.robot.commands.joystickcommands.ToggleDriveMode;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /**
@@ -13,23 +10,19 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  */
 public class OI {
 
-    private Joystick left = new Joystick(Robot.robotMap.getLeftJoystickUSB());
-    private Joystick right = new Joystick(Robot.robotMap.getRightJoystickUSB());
+    public static final DriveController dualJoystick = new DriveController(2, 1, 0, 1, 0, false);
+    public static final DriveController logitech = new DriveController(1, 0, 1, 1, 2, 3, 1, false);
 
-    private final int trigger = 1;
-    private JoystickButton drivingMode = new JoystickButton(left, trigger);
-    private JoystickButton printData = new JoystickButton(right, trigger);
+    private DriveController controller;
 
-    public OI() {
-	drivingMode.toggleWhenPressed(new ToggleDriveMode());
+    private JoystickButton printData = controller.rightTriggerButton;
+
+    public OI(DriveController controller) {
+	this.controller = controller;
 	printData.toggleWhenPressed(new PrintDriveData());
     }
 
-    public double getLeftSpeed() {
-	return left.getY();
-    }
-
-    public double getRightSpeed() {
-	return right.getY();
+    public DriveController controller() {
+	return controller;
     }
 }
