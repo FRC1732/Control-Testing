@@ -3,6 +3,7 @@ package org.usfirst.frc.team1732.robot.commands.drive;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.DoubleSupplier;
 
 import org.usfirst.frc.team1732.robot.Robot;
 import org.usfirst.frc.team1732.robot.drivemodes.DriveMode;
@@ -13,15 +14,19 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class TeleopDrive extends Command {
 
-    public static final List<DriveMode> driveModes = Collections
-	    .unmodifiableList(Arrays.asList(new TankDrive(Robot.oi.controller(), input -> input),
-		    new TankDrive(Robot.oi.controller(), x -> x * Math.abs(x)),
-		    new TankDrive(Robot.oi.controller(), x -> Math.pow(x, 3)),
-		    new TankDrive(Robot.oi.controller(), x -> Math.signum(x) * Math.pow(Math.abs(x), Math.abs(x))),
-		    new TankDrive(Robot.oi.controller(), x -> Math.sin(x * Math.PI / 2)),
-		    new TankDrive(Robot.oi.controller(), x -> Math.pow(x, 1.0 / 3.0))));
+    public static final List<DriveMode> driveModes;
 
-    private static DriveMode driveMode;
+    static {
+	DoubleSupplier leftY = Robot.oi.controller()::getLeftY;
+	DoubleSupplier rightY = Robot.oi.controller()::getRightY;
+	driveModes = Collections.unmodifiableList(Arrays.asList(new TankDrive(leftY, rightY, x -> x),
+		new TankDrive(leftY, rightY, x -> x * Math.abs(x)), new TankDrive(leftY, rightY, x -> Math.pow(x, 3)),
+		new TankDrive(leftY, rightY, x -> Math.signum(x) * Math.pow(Math.abs(x), Math.abs(x))),
+		new TankDrive(leftY, rightY, x -> Math.sin(x * Math.PI / 2)),
+		new TankDrive(leftY, rightY, x -> Math.pow(x, 1.0 / 3.0))));
+    }
+
+    private static DriveMode driveMode = driveModes.get(0);
 
     public static void setDriveMode(DriveMode mode) {
 	driveMode = mode;

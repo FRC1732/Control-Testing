@@ -1,32 +1,32 @@
 package org.usfirst.frc.team1732.robot.drivemodes;
 
+import java.util.function.DoubleSupplier;
 import java.util.function.Function;
-
-import org.usfirst.frc.team1732.robot.oi.DriveController;
 
 public class TankDrive extends DriveMode {
 
-    private Function<Double, Double> inputOutputMapper;
+    private DoubleSupplier leftInput;
+    private DoubleSupplier rightInput;
+    private Function<Double, Double> IOMapper;
 
-    public TankDrive(DriveController controller) {
+    public TankDrive(DoubleSupplier leftInput, DoubleSupplier rightInput) {
 	/*
-	 * input -> input does same thing as in this comment
+	 * input -> input makes the same thing as in this comment
 	 * 
 	 * Function<Double, Double> inputOutputMapper = (input) -> { return
 	 * input; };
 	 */
-	this(controller, input -> input);
+	this(leftInput, rightInput, input -> input);
     }
 
-    public TankDrive(DriveController controller, Function<Double, Double> inputOutputMapper) {
-	super(controller);
-	this.inputOutputMapper = inputOutputMapper;
+    public TankDrive(DoubleSupplier leftInput, DoubleSupplier rightInput, Function<Double, Double> IOMapper) {
+	this.IOMapper = IOMapper;
     }
 
     @Override
     public DriveOutput getOutput() {
-	double left = inputOutputMapper.apply(controller.getLeftY());
-	double right = inputOutputMapper.apply(controller.getRightY());
+	double left = IOMapper.apply(leftInput.getAsDouble());
+	double right = IOMapper.apply(rightInput.getAsDouble());
 	return new DriveOutput(left, right);
     }
 

@@ -1,18 +1,24 @@
 package org.usfirst.frc.team1732.robot.drivemodes;
 
+import java.util.function.BooleanSupplier;
+import java.util.function.DoubleSupplier;
 import java.util.function.Function;
-
-import org.usfirst.frc.team1732.robot.oi.DriveController;
 
 /*
  * Taken from Cheesypoofs 2016 code
  */
 public class CheesyArcade extends ArcadeDrive {
 
-    public CheesyArcade(DriveController controller, Function<Double, Double> angleInputOutputMapper,
-	    Function<Double, Double> throttleInputOutputMapper) {
-	super(controller, angleInputOutputMapper, throttleInputOutputMapper);
-	// TODO Auto-generated constructor stub
+    private final BooleanSupplier quickTurn;
+
+    public CheesyArcade(DoubleSupplier wheelInput, DoubleSupplier throttleInput, Function<Double, Double> wheelIOMapper,
+	    Function<Double, Double> throttleIOMapper, BooleanSupplier quickTurn) {
+	super(wheelInput, throttleInput, wheelIOMapper, throttleIOMapper);
+	this.quickTurn = quickTurn;
+    }
+
+    public CheesyArcade(DoubleSupplier wheelInput, DoubleSupplier throttleInput, BooleanSupplier quickTurn) {
+	this(wheelInput, throttleInput, wheel -> wheel, throttle -> throttle, quickTurn);
     }
 
     double mQuickStopAccumulator;
@@ -22,14 +28,9 @@ public class CheesyArcade extends ArcadeDrive {
 
     @Override
     public DriveOutput getOutput() {
-	double wheel = handleDeadband(controller.getLeftX(), kWheelDeadband);
-	double throttle = handleDeadband(controller.getRightY(), kThrottleDeadband);
-	boolean isQuickTurn;
-	if (controller.isTriggerAxis) {
-	    isQuickTurn = Math.abs(controller.getLeftTrigger()) > 0.5 || Math.abs(controller.getRightTrigger()) > 0.5;
-	} else {
-	    isQuickTurn = controller.leftTriggerButton.get() || controller.rightTriggerButton.get();
-	}
+	double wheel = handleDeadband(wheelInput.getAsDouble(), kWheelDeadband);
+	double throttle = handleDeadband(throttleInput.getAsDouble(), kThrottleDeadband);
+	boolean isQuickTurn = quickTurn.getAsBoolean();
 
 	double overPower;
 

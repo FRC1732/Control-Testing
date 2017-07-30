@@ -1,19 +1,25 @@
 package org.usfirst.frc.team1732.robot.drivemodes;
 
+import java.util.function.DoubleSupplier;
 import java.util.function.Function;
-
-import org.usfirst.frc.team1732.robot.oi.DriveController;
 
 public abstract class ArcadeDrive extends DriveMode {
 
-    protected final Function<Double, Double> angleInputOutputMapper;
-    protected final Function<Double, Double> throttleInputOutputMapper;
+    protected final DoubleSupplier wheelInput;
+    protected final DoubleSupplier throttleInput;
+    protected final Function<Double, Double> wheelIOMapper;
+    protected final Function<Double, Double> throttleIOMapper;
 
-    public ArcadeDrive(DriveController controller, Function<Double, Double> angleInputOutputMapper,
-	    Function<Double, Double> throttleInputOutputMapper) {
-	super(controller);
-	this.angleInputOutputMapper = angleInputOutputMapper;
-	this.throttleInputOutputMapper = throttleInputOutputMapper;
+    public ArcadeDrive(DoubleSupplier wheelInput, DoubleSupplier throttleInput) {
+	this(wheelInput, throttleInput, wheel -> wheel, throttle -> throttle);
+    }
+
+    public ArcadeDrive(DoubleSupplier wheelInput, DoubleSupplier throttleInput, Function<Double, Double> wheelIOMapper,
+	    Function<Double, Double> throttleIOMapper) {
+	this.wheelInput = wheelInput;
+	this.throttleInput = throttleInput;
+	this.wheelIOMapper = wheelIOMapper;
+	this.throttleIOMapper = throttleIOMapper;
     }
 
 }
