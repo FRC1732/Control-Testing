@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.usfirst.frc.team1732.robot.Robot;
 import org.usfirst.frc.team1732.robot.drivemodes.DriveMode;
+import org.usfirst.frc.team1732.robot.drivemodes.DriveMode.DriveOutput;
 import org.usfirst.frc.team1732.robot.drivemodes.TankDrive;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -38,7 +39,8 @@ public class TeleopDrive extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-	Robot.drivetrain.drive(driveMode.getLeftOutput(), driveMode.getRightOutput());
+	DriveOutput o = driveMode.getOutput();
+	Robot.drivetrain.drive(o.left, o.right);
     }
 
     // Make this return true when this Command no longer needs to run execute()

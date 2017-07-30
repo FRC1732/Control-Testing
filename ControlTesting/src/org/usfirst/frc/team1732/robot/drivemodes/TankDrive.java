@@ -24,13 +24,10 @@ public class TankDrive extends DriveMode {
     }
 
     @Override
-    public double getLeftOutput() {
-	return inputOutputMapper.apply(controller.getLeftY());
-    }
-
-    @Override
-    public double getRightOutput() {
-	return inputOutputMapper.apply(controller.getRightY());
+    public DriveOutput getOutput() {
+	double left = inputOutputMapper.apply(controller.getLeftY());
+	double right = inputOutputMapper.apply(controller.getRightY());
+	return new DriveOutput(left, right);
     }
 
 }

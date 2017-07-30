@@ -14,8 +14,16 @@ public abstract class DriveMode {
 	this.controller = controller;
     }
 
-    public abstract double getLeftOutput();
+    public static class DriveOutput {
+	public final double left;
+	public final double right;
 
-    public abstract double getRightOutput();
+	public DriveOutput(double l, double r) {
+	    left = l;
+	    right = r;
+	}
+    }
+
+    public abstract DriveOutput getOutput();
 
 }
