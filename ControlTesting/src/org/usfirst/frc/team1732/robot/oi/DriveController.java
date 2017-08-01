@@ -23,6 +23,9 @@ public class DriveController {
     public final JoystickButton leftTriggerButton;
     public final JoystickButton rightTriggerButton;
 
+    public final double joystickDeadband;
+    public final double triggerDeadband;
+
     /**
      * Constructor meant to use with the dual joysticks <br>
      * Assumes that both joysticks have same axis numbers
@@ -42,7 +45,31 @@ public class DriveController {
      *            (on and off)
      */
     public DriveController(int leftUSB, int rightUSB, int xAxis, int yAxis, int trigger, boolean isTriggerAxis) {
-	this(leftUSB, rightUSB, xAxis, yAxis, trigger, xAxis, yAxis, trigger, isTriggerAxis);
+	this(leftUSB, rightUSB, xAxis, yAxis, trigger, xAxis, yAxis, trigger, isTriggerAxis, 0, 0);
+    }
+
+    /**
+     * Constructor meant to use with the dual joysticks <br>
+     * Assumes that both joysticks have same axis numbers
+     * 
+     * @param leftUSB
+     *            left USB number
+     * @param rightUSB
+     *            right USB number
+     * @param xAxis
+     *            joystick x axis number
+     * @param yAxis
+     *            joystick y axis number
+     * @param trigger
+     *            trigger axis/button number
+     * @param isTriggerAxis
+     *            if the trigger is an axis (range of values) or just a button
+     *            (on and off)
+     */
+    public DriveController(int leftUSB, int rightUSB, int xAxis, int yAxis, int trigger, boolean isTriggerAxis,
+	    double joystickDeadband, double triggerDeadband) {
+	this(leftUSB, rightUSB, xAxis, yAxis, trigger, xAxis, yAxis, trigger, isTriggerAxis, joystickDeadband,
+		triggerDeadband);
     }
 
     /**
@@ -65,10 +92,49 @@ public class DriveController {
      * @param isTriggerAxis
      *            if the trigger is an axis (range of values) or just a button
      *            (on and off)
+     * @param joystickDeadband
+     *            range of joystick output in which a value of 0 should be
+     *            reported
+     * @param triggerDeadband
+     *            if trigger is an axis, the range of trigger output in which a
+     *            value of 0 should be reported
      */
     public DriveController(int USB, int leftX, int leftY, int leftTrigger, int rightX, int rightY, int rightTrigger,
 	    boolean isTriggerAxis) {
-	this(USB, USB, leftX, leftY, leftTrigger, rightX, rightY, rightTrigger, isTriggerAxis);
+	this(USB, USB, leftX, leftY, leftTrigger, rightX, rightY, rightTrigger, isTriggerAxis, 0, 0);
+    }
+
+    /**
+     * Constructor meant for game controllers
+     * 
+     * @param USB
+     *            the single USB port for the controller
+     * @param leftX
+     *            left x axis number
+     * @param leftY
+     *            left y axis number
+     * @param leftTrigger
+     *            left trigger axis/button number
+     * @param rightX
+     *            right x axis number
+     * @param rightY
+     *            right x axis number
+     * @param rightTrigger
+     *            right trigger axis/button number
+     * @param isTriggerAxis
+     *            if the trigger is an axis (range of values) or just a button
+     *            (on and off)
+     * @param joystickDeadband
+     *            range of joystick output in which a value of 0 should be
+     *            reported
+     * @param triggerDeadband
+     *            if trigger is an axis, the range of trigger output in which a
+     *            value of 0 should be reported
+     */
+    public DriveController(int USB, int leftX, int leftY, int leftTrigger, int rightX, int rightY, int rightTrigger,
+	    boolean isTriggerAxis, double joystickDeadband, double triggerDeadband) {
+	this(USB, USB, leftX, leftY, leftTrigger, rightX, rightY, rightTrigger, isTriggerAxis, joystickDeadband,
+		triggerDeadband);
     }
 
     /**
@@ -96,7 +162,7 @@ public class DriveController {
      *            (on and off)
      */
     public DriveController(int leftUSB, int rightUSB, int leftX, int leftY, int leftTrigger, int rightX, int rightY,
-	    int rightTrigger, boolean isTriggerAxis) {
+	    int rightTrigger, boolean isTriggerAxis, double joystickDeadband, double triggerDeadband) {
 	this.leftUSB = leftUSB;
 	this.leftX = leftX;
 	this.leftY = leftY;
@@ -117,35 +183,44 @@ public class DriveController {
 	    leftTriggerButton = new JoystickButton(leftStick, leftTrigger);
 	    rightTriggerButton = new JoystickButton(rightStick, rightTrigger);
 	}
+
+	this.triggerDeadband = triggerDeadband;
+	this.joystickDeadband = joystickDeadband;
     }
 
     public double getLeftX() {
-	return leftStick.getRawAxis(leftX);
+	double d = leftStick.getRawAxis(leftX);
+	return Math.abs(d) < joystickDeadband ? 0 : d;
     }
 
     public double getLeftY() {
-	return leftStick.getRawAxis(leftY);
+	double d = leftStick.getRawAxis(leftY);
+	return Math.abs(d) < joystickDeadband ? 0 : d;
     }
 
     public double getLeftTrigger() {
 	if (isTriggerAxis) {
-	    return leftStick.getRawAxis(leftTrigger);
+	    double d = leftStick.getRawAxis(leftTrigger);
+	    return Math.abs(d) < triggerDeadband ? 0 : d;
 	} else {
 	    return 0;
 	}
     }
 
     public double getRightX() {
-	return rightStick.getRawAxis(rightX);
+	double d = rightStick.getRawAxis(rightX);
+	return Math.abs(d) < joystickDeadband ? 0 : d;
     }
 
     public double getRightY() {
-	return rightStick.getRawAxis(rightY);
+	double d = rightStick.getRawAxis(rightY);
+	return Math.abs(d) < joystickDeadband ? 0 : d;
     }
 
     public double getRightTrigger() {
 	if (isTriggerAxis) {
-	    return rightStick.getRawAxis(rightTrigger);
+	    double d = rightStick.getRawAxis(rightTrigger);
+	    return Math.abs(d) < triggerDeadband ? 0 : d;
 	} else {
 	    return 0;
 	}
