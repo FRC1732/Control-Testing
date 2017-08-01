@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.DoubleSupplier;
+import java.util.function.Function;
 
 import org.usfirst.frc.team1732.robot.Robot;
 import org.usfirst.frc.team1732.robot.drivemodes.DriveMode;
@@ -19,11 +20,13 @@ public class TeleopDrive extends Command {
     static {
 	DoubleSupplier leftY = Robot.oi.controller()::getLeftY;
 	DoubleSupplier rightY = Robot.oi.controller()::getRightY;
-	driveModes = Collections.unmodifiableList(Arrays.asList(new TankDrive(leftY, rightY, x -> x),
-		new TankDrive(leftY, rightY, x -> x * Math.abs(x)), new TankDrive(leftY, rightY, x -> Math.pow(x, 3)),
-		new TankDrive(leftY, rightY, x -> Math.signum(x) * Math.pow(Math.abs(x), Math.abs(x))),
-		new TankDrive(leftY, rightY, x -> Math.sin(x * Math.PI / 2)),
-		new TankDrive(leftY, rightY, x -> Math.pow(x, 1.0 / 3.0))));
+	// add inverse deadband stuff
+	Function<Double, Double> a = x -> x;
+	Function<Double, Double> b = x -> Math.pow(x, 3); // add ether's
+							  // parameters
+
+	driveModes = Collections
+		.unmodifiableList(Arrays.asList(new TankDrive(leftY, rightY, a), new TankDrive(leftY, rightY, b)));
     }
 
     private static DriveMode driveMode = driveModes.get(0);
