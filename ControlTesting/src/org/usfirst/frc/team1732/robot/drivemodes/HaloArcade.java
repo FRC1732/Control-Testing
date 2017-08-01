@@ -1,7 +1,6 @@
 package org.usfirst.frc.team1732.robot.drivemodes;
 
 import java.util.function.DoubleSupplier;
-import java.util.function.Function;
 
 /*
  * Based on the cheesy poofs 2016 code, and team 111's code which
@@ -11,13 +10,8 @@ import java.util.function.Function;
 
 public class HaloArcade extends ArcadeDrive {
 
-    public HaloArcade(DoubleSupplier wheelInput, DoubleSupplier throttleInput, Function<Double, Double> wheelIOMapper,
-	    Function<Double, Double> throttleIOMapper) {
-	super(wheelInput, throttleInput, wheelIOMapper, throttleIOMapper);
-    }
-
     public HaloArcade(DoubleSupplier wheelInput, DoubleSupplier throttleInput) {
-	this(wheelInput, throttleInput, wheel -> wheel, throttle -> throttle);
+	super(wheelInput, throttleInput, wheel -> wheel, throttle -> throttle);
     }
 
     double mQuickStopAccumulator;

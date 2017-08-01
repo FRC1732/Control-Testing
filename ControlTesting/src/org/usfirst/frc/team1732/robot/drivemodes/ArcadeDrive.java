@@ -7,19 +7,19 @@ public abstract class ArcadeDrive extends DriveMode {
 
     protected final DoubleSupplier wheelInput;
     protected final DoubleSupplier throttleInput;
-    protected final Function<Double, Double> wheelIOMapper;
-    protected final Function<Double, Double> throttleIOMapper;
+    protected final Function<Double, Double> wheelResponseCurve;
+    protected final Function<Double, Double> throttleResponseCurve;
 
     public ArcadeDrive(DoubleSupplier wheelInput, DoubleSupplier throttleInput) {
 	this(wheelInput, throttleInput, wheel -> wheel, throttle -> throttle);
     }
 
-    public ArcadeDrive(DoubleSupplier wheelInput, DoubleSupplier throttleInput, Function<Double, Double> wheelIOMapper,
-	    Function<Double, Double> throttleIOMapper) {
+    public ArcadeDrive(DoubleSupplier wheelInput, DoubleSupplier throttleInput, Function<Double, Double> wheelResponseCurve,
+	    Function<Double, Double> throttleResponseCurve) {
 	this.wheelInput = wheelInput;
 	this.throttleInput = throttleInput;
-	this.wheelIOMapper = wheelIOMapper;
-	this.throttleIOMapper = throttleIOMapper;
+	this.wheelResponseCurve = wheelResponseCurve;
+	this.throttleResponseCurve = throttleResponseCurve;
     }
 
 }

@@ -6,8 +6,8 @@ import java.util.function.Function;
 public class MyArcadeDrive extends ArcadeDrive {
 
     public MyArcadeDrive(DoubleSupplier wheelInput, DoubleSupplier throttleInput,
-	    Function<Double, Double> wheelIOMapper, Function<Double, Double> throttleIOMapper) {
-	super(wheelInput, throttleInput, wheelIOMapper, throttleIOMapper);
+	    Function<Double, Double> wheelResponseCurve, Function<Double, Double> throttleResponseCurve) {
+	super(wheelInput, throttleInput, wheelResponseCurve, throttleResponseCurve);
     }
 
     public MyArcadeDrive(DoubleSupplier wheelInput, DoubleSupplier throttleInput) {
@@ -16,8 +16,8 @@ public class MyArcadeDrive extends ArcadeDrive {
 
     @Override
     public DriveOutput getOutput() {
-	double angle = wheelIOMapper.apply(wheelInput.getAsDouble());
-	double throttle = throttleIOMapper.apply(throttleInput.getAsDouble());
+	double angle = wheelResponseCurve.apply(wheelInput.getAsDouble());
+	double throttle = throttleResponseCurve.apply(throttleInput.getAsDouble());
 	double left = throttle + angle;
 	double right = throttle - angle;
 	double max = Math.max(Math.abs(left), Math.abs(right));

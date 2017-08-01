@@ -7,7 +7,7 @@ public class TankDrive extends DriveMode {
 
     private DoubleSupplier leftInput;
     private DoubleSupplier rightInput;
-    private Function<Double, Double> IOMapper;
+    private Function<Double, Double> responseCurve;
 
     public TankDrive(DoubleSupplier leftInput, DoubleSupplier rightInput) {
 	/*
@@ -19,14 +19,14 @@ public class TankDrive extends DriveMode {
 	this(leftInput, rightInput, input -> input);
     }
 
-    public TankDrive(DoubleSupplier leftInput, DoubleSupplier rightInput, Function<Double, Double> IOMapper) {
-	this.IOMapper = IOMapper;
+    public TankDrive(DoubleSupplier leftInput, DoubleSupplier rightInput, Function<Double, Double> responseCurve) {
+	this.responseCurve = responseCurve;
     }
 
     @Override
     public DriveOutput getOutput() {
-	double left = IOMapper.apply(leftInput.getAsDouble());
-	double right = IOMapper.apply(rightInput.getAsDouble());
+	double left = responseCurve.apply(leftInput.getAsDouble());
+	double right = responseCurve.apply(rightInput.getAsDouble());
 	return new DriveOutput(left, right);
     }
 

@@ -2,7 +2,6 @@ package org.usfirst.frc.team1732.robot.drivemodes;
 
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
-import java.util.function.Function;
 
 /*
  * Taken from Cheesypoofs 2016 code
@@ -11,14 +10,9 @@ public class CheesyArcade extends ArcadeDrive {
 
     private final BooleanSupplier quickTurn;
 
-    public CheesyArcade(DoubleSupplier wheelInput, DoubleSupplier throttleInput, Function<Double, Double> wheelIOMapper,
-	    Function<Double, Double> throttleIOMapper, BooleanSupplier quickTurn) {
-	super(wheelInput, throttleInput, wheelIOMapper, throttleIOMapper);
-	this.quickTurn = quickTurn;
-    }
-
     public CheesyArcade(DoubleSupplier wheelInput, DoubleSupplier throttleInput, BooleanSupplier quickTurn) {
-	this(wheelInput, throttleInput, wheel -> wheel, throttle -> throttle, quickTurn);
+	super(wheelInput, throttleInput, wheel -> wheel, throttle -> throttle);
+	this.quickTurn = quickTurn;
     }
 
     double mQuickStopAccumulator;
