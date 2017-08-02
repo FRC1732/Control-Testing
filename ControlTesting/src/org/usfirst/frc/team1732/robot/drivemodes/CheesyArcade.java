@@ -11,7 +11,7 @@ public class CheesyArcade extends ArcadeDrive {
     private final BooleanSupplier quickTurn;
 
     public CheesyArcade(DoubleSupplier wheelInput, DoubleSupplier throttleInput, BooleanSupplier quickTurn) {
-	super(wheelInput, throttleInput, wheel -> wheel, throttle -> throttle);
+	super(wheelInput, throttleInput);
 	this.quickTurn = quickTurn;
     }
 
