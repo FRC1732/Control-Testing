@@ -10,8 +10,8 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  */
 public class OI {
 
-    public static final DriveController dualJoystick = new DriveController(2, 1, 0, 1, 0, false);
-    public static final DriveController logitech = new DriveController(1, 0, 1, 1, 2, 3, 1, false);
+    public static final DriveController dualJoystick = new DriveController(2, 1, 0, 1, 0, false, 0.05, 0.05);
+    public static final DriveController logitech = new DriveController(1, 0, 1, 1, 2, 3, 1, false, 0.05, 0.05);
 
     private DriveController controller;
 

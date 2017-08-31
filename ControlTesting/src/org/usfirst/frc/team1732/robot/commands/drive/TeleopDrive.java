@@ -1,11 +1,5 @@
 package org.usfirst.frc.team1732.robot.commands.drive;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.function.DoubleSupplier;
-import java.util.function.Function;
-
 import org.usfirst.frc.team1732.robot.Robot;
 import org.usfirst.frc.team1732.robot.drivemodes.DriveMode;
 import org.usfirst.frc.team1732.robot.drivemodes.DriveMode.DriveOutput;
@@ -15,25 +9,8 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class TeleopDrive extends Command {
 
-    public static final List<DriveMode> driveModes;
-
-    static {
-	DoubleSupplier leftY = Robot.oi.controller()::getLeftY;
-	DoubleSupplier rightY = Robot.oi.controller()::getRightY;
-	// add inverse deadband stuff
-	Function<Double, Double> a = x -> x;
-	Function<Double, Double> b = x -> Math.pow(x, 3); // add ether's
-							  // parameters
-
-	driveModes = Collections
-		.unmodifiableList(Arrays.asList(new TankDrive(leftY, rightY, a), new TankDrive(leftY, rightY, b)));
-    }
-
-    private static DriveMode driveMode = driveModes.get(0);
-
-    public static void setDriveMode(DriveMode mode) {
-	driveMode = mode;
-    }
+    private static DriveMode driveMode = new TankDrive(Robot.oi.controller()::getLeftY,
+	    Robot.oi.controller()::getRightY);
 
     public TeleopDrive() {
 	super("TelopDrive");
@@ -42,6 +19,7 @@ public class TeleopDrive extends Command {
 
     @Override
     public void initialize() {
+	Robot.drivetrain.setControlMode(driveMode.getControlMode());
     }
 
     // Called repeatedly when this Command is scheduled to run

@@ -3,14 +3,14 @@ package org.usfirst.frc.team1732.robot.drivemodes;
 import java.util.function.DoubleSupplier;
 import java.util.function.Function;
 
-public class MyArcade extends ArcadeDrive {
+public class JayArcade extends ArcadeDrive {
 
-    public MyArcade(DoubleSupplier wheelInput, DoubleSupplier throttleInput,
+    public JayArcade(DoubleSupplier wheelInput, DoubleSupplier throttleInput,
 	    Function<Double, Double> wheelResponseCurve, Function<Double, Double> throttleResponseCurve) {
 	super(wheelInput, throttleInput, wheelResponseCurve, throttleResponseCurve);
     }
 
-    public MyArcade(DoubleSupplier wheelInput, DoubleSupplier throttleInput) {
+    public JayArcade(DoubleSupplier wheelInput, DoubleSupplier throttleInput) {
 	super(wheelInput, throttleInput);
     }
 
